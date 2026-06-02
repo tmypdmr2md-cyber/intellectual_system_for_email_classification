@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Email Classification Dashboard</title>
+    <link rel="stylesheet" href="/dashboard/styles.css">
+</head>
+
+<body>
+    <div class="shell">
+        <aside class="sidebar">
+            <div>
+                <p class="eyebrow">Admin panel</p>
+                <h1>Email Classification</h1>
+            </div>
+            <nav class="nav">
+                <button class="nav-link active" data-target="emails-section">Письма</button>
+                <button class="nav-link" data-target="files-section">Файловая база</button>
+                <button class="nav-link" data-target="categories-section">Категории</button>
+                <button class="nav-link" data-target="results-section">Результаты</button>
+            </nav>
+            <div class="sidebar-status" id="statusText">Готово</div>
+        </aside>
+
+        <main class="workspace">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">Pipeline controller</p>
+                    <h2>Обзор системы</h2>
+                </div>
+                <div class="actions">
+                    <button id="refreshBtn">Обновить</button>
+                    <button id="ingestBtn">Загрузить inbox</button>
+                    <button id="processNextBtn">Process next 5</button>
+                    <button id="processAllBtn" class="danger">Process all</button>
+                    <button id="resetDbBtn" class="danger">Очистить БД</button>
+                </div>
+            </header>
+
+            <section class="metrics" id="overviewGrid"></section>
+
+            <section class="layout">
+                <div class="main-column">
+                    <section class="panel page-section active" id="emails-section">
+                        <div class="section-head">
+                            <div>
+                                <p class="eyebrow">Database viewer</p>
+                                <h3>Письма</h3>
+                            </div>
+                            <div class="filters" id="emailFilters">
+                                <button class="filter active" data-filter="all">Все</button>
+                                <button class="filter" data-filter="parsed">Parsed</button>
+                                <button class="filter" data-filter="classified">Classified</button>
+                                <button class="filter" data-filter="garbage">Garbage</button>
+                                <button class="filter" data-filter="failed">Failed</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Filename</th>
+                                        <th>Subject</th>
+                                        <th>Status</th>
+                                        <th>Garbage</th>
+                                        <th>Processing</th>
+                                        <th>Category</th>
+                                        <th>Confidence</th>
+                                        <th>Method</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="emailsTable"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="panel page-section" id="files-section">
+                        <div class="section-head">
+                            <div>
+                                <p class="eyebrow">Inbox</p>
+                                <h3>Файловая база</h3>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Filename</th>
+                                        <th>Extension</th>
+                                        <th>Size</th>
+                                        <th>Ingested</th>
+                                        <th>Status</th>
+                                        <th>Processing</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="filesTable"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <section class="panel page-section" id="categories-section">
+                        <div class="section-head">
+                            <div>
+                                <p class="eyebrow">Classification</p>
+                                <h3>Категории</h3>
+                            </div>
+                        </div>
+                        <div class="split">
+                            <div class="category-list" id="categoriesList"></div>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Filename</th>
+                                            <th>Subject</th>
+                                            <th>Confidence</th>
+                                            <th>Method</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categoryEmailsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="panel page-section" id="results-section">
+                        <div class="section-head">
+                            <div>
+                                <p class="eyebrow">Audit trail</p>
+                                <h3>Classification results</h3>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Email</th>
+                                        <th>Category</th>
+                                        <th>Confidence</th>
+                                        <th>Method</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="resultsTable"></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+                <aside class="detail-panel">
+                    <div class="section-head">
+                        <div>
+                            <p class="eyebrow">Selected email</p>
+                            <h3 id="detailTitle">Письмо не выбрано</h3>
+                        </div>
+                    </div>
+                    <div id="emailDetail" class="detail-empty">Выберите письмо в таблице.</div>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+    <script src="/dashboard/app.js"></script>
+</body>
+
+</html>
